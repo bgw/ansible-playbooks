@@ -1,0 +1,5 @@
+# This file is an example of what /etc/ansible/hosts could be
+# If you don't want to install anything, export the path as ANSIBLE_HOSTS
+
+[buyvm]
+localhost    ansible_connection=local
