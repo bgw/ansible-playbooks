@@ -2,4 +2,4 @@
 # If you don't want to install anything, export the path as ANSIBLE_HOSTS
 
 [buyvm]
-localhost    ansible_connection=local
+me ansible_connection=local
