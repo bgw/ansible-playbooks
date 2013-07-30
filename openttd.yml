@@ -19,7 +19,7 @@
   tasks:
 
     - name: Stop existing OpenTTD server (if it exists)
-      service: name=openttd enabled=yes state=started
+      service: name=openttd enabled=yes state=stopped
       ignore_errors: yes
 
     - name: Ensure /var/games exists
