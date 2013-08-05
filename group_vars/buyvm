@@ -6,6 +6,7 @@ openttd:
   currency: USD
   language: ENGLISH
   units: imperial
+  casual: yes
 ddclient:
   daemon: 3600 # We have a static IP, so it shouldn't really change
   protocol: freedns

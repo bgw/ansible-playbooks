@@ -6,5 +6,7 @@ openttd:
   currency: USD # https://secure.openttd.org/wiki/Currency
   language: ALL
   units: imperial # alternatively, metric
+  casual: yes
+domain: localhost
 debian_release: wheezy
 arch: amd64
