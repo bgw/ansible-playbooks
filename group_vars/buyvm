@@ -6,5 +6,12 @@ openttd:
   currency: USD
   language: ENGLISH
   units: imperial
+ddclient:
+  daemon: 3600 # We have a static IP, so it shouldn't really change
+  protocol: freedns
+  syslog: "yes"
+  use: web
+  login: pipeep
+  domain: benjam.info.tm
 debian_release: wheezy
 arch: amd64
