@@ -14,5 +14,6 @@ ddclient:
   use: web
   login: pipeep
   domain: benjam.info.tm
+domain: benam.info.tm
 debian_release: wheezy
 arch: amd64
