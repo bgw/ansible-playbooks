@@ -38,9 +38,31 @@
         - dovecot-core
         - dovecot-sqlite
 
+    - name: configure dovecot
+      template: >
+        src=resources{{ item }}
+        dest={{ item }}
+        owner=root
+        group=root
+        mode=644
+      with_items:
+        - /etc/pam.d/dovecot
+      notify:
+        - restart dovecot
+
     # Being able to manage email on the server is a plus
     - name: install mutt-patched
       apt: pkg=mutt-patched state=present
+
+    - name: configure mutt
+      template: >
+        src=resources{{ item }}
+        dest={{ item }}
+        owner=root
+        group=root
+        mode=644
+      with_items:
+        - /etc/Muttrc
 
   handlers:
     - name: run newaliases
@@ -48,3 +70,6 @@
 
     - name: restart postfix
       service: name=postfix state=restarted
+
+    - name: restart dovecot
+      service: name=dovecot state=restarted
