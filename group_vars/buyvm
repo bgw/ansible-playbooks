@@ -1,4 +1,7 @@
 ---
+domain: benam.info.tm
+debian_release: wheezy
+arch: amd64
 openttd:
   server_name: UF OpenTTD
   version: 1.3.2
@@ -14,6 +17,3 @@ ddclient:
   use: web
   login: pipeep
   domain: benjam.info.tm
-domain: benam.info.tm
-debian_release: wheezy
-arch: amd64
