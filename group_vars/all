@@ -47,7 +47,7 @@ irc:
         - "#debian-gnome"
         - "#debian-offtopic"
     - name: EFnet
-      server:
+      servers:
         - { address: irc.choopa.net, port: 6697, ssl: yes }
         - { address: irc.paraphysics.net, port: 6697, ssl: yes }
         - { address: efnet.xs4all.nl, port: 6697, ssl: yes }
@@ -55,14 +55,14 @@ irc:
       channels:
         - "#math"
     - name: Snoonet
+      servers:
+        - { address: irc.snoonet.org, port: 6697, ssl: yes }
       channels:
         - "#reddit"
         - "#breakingbad"
-      server:
-        - { address: irc.snoonet.org, port: 6697, ssl: yes }
     - name: DaIRC
-      channels:
-        - "#frantech"
-      server:
+      servers:
         - { address: irc.dairc.net, port: 6697, ssl: yes }
         - { address: irc.hinoto.dairc.net, port: 6697, ssl: yes }
+      channels:
+        - "#frantech"
