@@ -1,0 +1,33 @@
+---
+- hosts: terminals
+  sudo: yes
+
+  vars_prompt:
+    - name: znc_password
+      prompt: Password for znc bouncer
+      private: yes
+
+  tasks:
+
+    - name: install xchat
+      apt: pkg=xchat state=present
+
+    - name: build xchat directory structure
+      file: >
+        dest=~{{ primary_user }}/.xchat2
+        state=directory
+        mode=700
+        owner={{ primary_user }}
+        group={{ primary_user }}
+
+    - name: configure xchat
+      template: >
+        src=resources/home/xchat2/{{ item }}
+        dest=~{{ primary_user }}/.xchat2/{{ item }}
+        mode=600
+        owner={{ primary_user }}
+        group={{ primary_user }}
+      with_items:
+        - servlist_.conf
+        - colors.conf
+        - xchat.conf

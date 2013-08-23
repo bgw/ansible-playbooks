@@ -2,4 +2,11 @@
 # If you don't want to install anything, export the path as ANSIBLE_HOSTS
 
 [buyvm]
-me ansible_connection=local
+benjam.info.tm
+
+[laptops]
+pipeep-laptop.local ansible_connection=local
+pipeep-netbook.local
+
+[terminals:children]
+laptops
