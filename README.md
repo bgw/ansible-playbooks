@@ -4,7 +4,13 @@ Ansible Playbooks
 Provided Playbooks
 ------------------
 
-- **OpenTTD**: Dedicated server for the game, set up with init.d and stuff
+-   **ddclient**: A dynamic DNS client, using <freedns.afraid.org>
+-   **Email**: (Still in development) A single-user mailserver using postfix,
+    dovecot, and mutt
+-   **IRC Bouncer**: A simple IRC bouncer using ZNC, making IRC across multiple
+    machines easy
+-   **XChat**: A configuration for XChat that connects through ZNC
+-   **OpenTTD**: Dedicated server for the game, set up with init.d and stuff
 
 Installation
 ------------
