@@ -1,0 +1,137 @@
+---
+# Install and configure OpenTTD for use as a dedicated server.
+# Warning: This installs x11-common and friends (because openttd *requires* sdl)
+- name: stop existing openttd server (if it exists)
+  service: name=openttd enabled=yes state=stopped
+  ignore_errors: yes
+  tags: openttd
+
+- name: ensure /var/games exists
+  file: >
+    dest=/var/games
+    mode=755
+    owner=root
+    group=root
+    state=directory
+  tags: openttd
+
+- name: create 'openttd' user
+  user: >
+    name=openttd
+    comment="OpenTTD Server Service"
+    system=yes
+    home=/var/games/openttd
+    createhome=yes
+  tags: openttd
+
+- name: create temporary directory
+  file: >
+    dest=/tmp/ansible-openttd
+    mode=700
+    owner=openttd
+    group=openttd
+    state=directory
+  tags: openttd
+
+- name: download OpenTTD
+  get_url: >
+    url=http://binaries.openttd.org/releases/{{openttd.version}}/openttd-{{
+    openttd.version}}-linux-debian-{{debian_release}}-{{arch}}.deb
+    dest=/tmp/ansible-openttd/openttd-{{openttd.version}}.deb
+  tags: openttd
+
+- name: install OpenTTD
+  shell: >
+    dpkg -i /tmp/ansible-openttd/openttd-{{openttd.version}}.deb ||
+    apt-get -f --no-install-recommends --assume-yes install
+  tags: openttd
+
+- name: download opengfx
+  get_url: >
+    url=http://binaries.openttd.org/extra/opengfx/{{openttd.opengfx_version
+    }}/opengfx-{{openttd.opengfx_version}}-all.zip
+    dest=/tmp/ansible-openttd/opengfx-{{openttd.opengfx_version}}.zip
+  tags: openttd
+
+- name: remove previous opengfx installations
+  shell: rm -rf /usr/share/games/openttd/baseset/opengfx*
+  tags: openttd
+
+- name: install opengfx
+  command: unzip /tmp/ansible-openttd/opengfx-{{openttd.opengfx_version}}.zip
+              -d /usr/share/games/openttd/baseset
+  tags: openttd
+
+- name: install init.d script
+  copy: >
+    src=initd_openttd
+    dest=/etc/init.d/openttd
+    mode=755
+    owner=root
+    group=root
+  tags: openttd
+
+- name: register init.d script
+  command: update-rc.d openttd defaults
+  tags: openttd
+
+- name: clean up temporary files
+  file: dest=/tmp/ansible-openttd state=absent
+  tags: openttd
+
+- name: create openttd gamedata folder
+  file: >
+    dest=/var/games/openttd/.openttd
+    mode=755
+    owner=openttd
+    group=openttd
+    state=directory
+  tags: openttd
+
+- name: configure openttd
+  template: >
+    src=openttd.cfg.j2
+    dest=/var/games/openttd/.openttd/openttd.cfg
+    mode=600
+    owner=openttd
+    group=openttd
+  tags: openttd
+
+- name: link the openttd config file to the gamedata folder
+  file: >
+    src=/var/games/openttd/.openttd/openttd.cfg
+    dest=/etc/openttd.cfg
+    mode=600
+    owner=openttd
+    group=openttd
+    state=link
+  tags: openttd
+
+# Really, openttd should make this, but it doesn't when run with `-f`
+- name: make openttd logfile
+  command: >
+    /usr/bin/touch /var/games/openttd/.openttd/openttd.log
+    creates=/var/games/openttd/.openttd/openttd.log
+  tags: openttd
+
+- name: set permissions on openttd logfile
+  file: >
+    dest=/var/games/openttd/.openttd/openttd.log
+    mode=644
+    owner=openttd
+    group=openttd
+  tags: openttd
+
+- name: link the openttd logfile to /var/log
+  file: >
+    src=/var/games/openttd/.openttd/openttd.log
+    dest=/var/log/openttd
+    mode=644
+    owner=openttd
+    group=openttd
+    state=link
+  tags: openttd
+
+- name: start openttd server
+  service: name=openttd enabled=yes state=started
+  tags: openttd

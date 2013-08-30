@@ -8,5 +8,12 @@ benjam.info.tm
 pipeep-laptop.local ansible_connection=local
 pipeep-netbook.local
 
-[terminals:children]
+[desktops]
+# Oh yeah, I don't have any of these
+
+[workstations:children]
 laptops
+desktops
+
+[headless:children]
+buyvm

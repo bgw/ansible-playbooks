@@ -10,7 +10,7 @@ PidFile    = /var/run/znc/znc.pid
 
 {% for network in irc.networks %}
 <User {{ irc.nick }}-{{ network.name }}>
-    Pass       = {{ znc_hash.stdout }}
+    Pass       = {{ irc_znc_hash.stdout }}
     Admin      = true
     Nick       = {{ irc.nick }}
     AltNick    = {{ irc.nick }}_

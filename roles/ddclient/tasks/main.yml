@@ -1,0 +1,29 @@
+---
+# Use ddclient to setup a free (or cheap) subdomain with a dynamic dns provider
+- name: install ddclient
+  apt: pkg=ddclient default_release=unstable state=present
+  tags: ddclient
+
+- name: install libdigest-sha-perl for ddclient (needed for freedns)
+  apt: pkg=libdigest-sha-perl state=present
+  tags: ddclient
+
+# ddclient on debian is missing a patch for freedns
+# http://sourceforge.net/p/ddclient/discussion/399428/thread/9742ac09/
+- name: install cpanminus for Digest::SHA1 (due to ddclient bug)
+  apt: pkg=cpanminus state=present
+  tags: ddclient
+
+- name: install Digest::SHA1 (due to ddclient bug)
+  command: cpanm Digest::SHA1
+  tags: ddclient
+
+- name: configure ddclient
+  template: >
+    src=ddclient.conf.j2
+    dest=/etc/ddclient.conf
+    owner=root
+    group=root
+    mode=600
+  notify: restart ddclient
+  tags: ddclient

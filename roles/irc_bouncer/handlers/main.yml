@@ -1,0 +1,14 @@
+---
+- name: register znc init.d script
+  command: update-rc.d znc defaults
+
+- name: restart znc service
+  service: name=znc state=restarted
+
+- name: keep znc private key from being world-readable
+  # The default mode is 644, which is too liberal
+  file: >
+    dest=/var/lib/znc/znc.pem
+    mode=600
+    owner=znc
+    group=znc

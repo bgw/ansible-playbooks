@@ -1,0 +1,68 @@
+---
+# Setup a lightweight single-user mailserver using postfix (MTA) and dovecot
+# (IMAP server).
+- name: uninstall exim4
+  apt: pkg={{item}} state=absent purge=yes
+  with_items:
+    - exim4
+    - exim4-base
+    - exim4-config
+    - exim4-daemon-light
+  tags: email
+
+- name: install postfix
+  apt: pkg=postfix state=present
+  tags: email
+
+- name: configure postfix
+  template: >
+    src={{ item }}.j2
+    dest=/etc/{{ item }}
+    owner=root
+    group=root
+    mode=644
+  with_items:
+    - aliases
+    - mailname
+    - postfix/main.cf
+    - postfix/master.cf
+  notify:
+    - run newaliases
+    - restart postfix
+  tags: email
+
+- name: install dovecot
+  apt: pkg={{item}} state=present
+  with_items:
+    - dovecot-core
+    - dovecot-sqlite
+  tags: email
+
+- name: configure dovecot
+  template: >
+    src={{ item }}.j2
+    dest=/etc/{{ item }}
+    owner=root
+    group=root
+    mode=644
+  with_items:
+    - pam.d/dovecot
+  notify:
+    - restart dovecot
+  tags: email
+
+# Being able to manage email on the server is a plus
+- name: install mutt-patched
+  apt: pkg=mutt-patched state=present
+  tags: email
+
+- name: configure mutt
+  template: >
+    src={{ item }}.j2
+    dest=/etc/{{ item }}
+    owner=root
+    group=root
+    mode=644
+  with_items:
+    - Muttrc
+  tags: email

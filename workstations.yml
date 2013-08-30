@@ -1,0 +1,8 @@
+---
+- hosts: workstations
+  user: pipeep
+  sudo: yes
+  vars_files: [secrets.yml]
+
+  roles:
+    - xchat

@@ -1,0 +1,82 @@
+---
+# http://wiki.znc.in/Running_ZNC_as_a_system_daemon
+- name: install znc
+  apt: pkg=znc state=present
+  tags: irc_bouncer
+
+- name: create znc user
+  user: >
+    user=znc
+    comment="ZNC IRC Bouncer Service"
+    system=yes
+    home=/var/lib/znc
+    createhome=yes
+  tags: irc_bouncer
+
+- name: install znc init.d script
+  copy: >
+    src=initd_znc
+    dest=/etc/init.d/znc
+    mode=755
+    owner=root
+    group=root
+  notify:
+    - register znc init.d script
+    - restart znc service
+  tags: irc_bouncer
+
+- name: install uuencode (for password hashing)
+  apt: pkg=sharutils state=present
+  tags: irc_bouncer
+
+- name: generate password hash
+  # You can supply a salt as a varible, or you can randomly generate a new one
+  # Supplying one keeps the hash from changing each time, restarting ZNC.
+  shell: >
+    RAND_SALT="$(head /dev/urandom | uuencode -m - | sed -n 2p | cut -c-16)";
+    GIVEN_SALT='{{irc.znc.salt}}';
+    SALT="$(python -c "print(r'''$GIVEN_SALT''' or r'''$RAND_SALT''')")";
+    echo -n "sha256#$(
+    echo -n '{{irc_znc_password}}'$SALT | sha256sum | cut -b -64
+    )#$SALT#"
+  register: irc_znc_hash
+  tags: irc_bouncer
+
+- name: generate znc directory structure
+  file: >
+    dest=/var/lib/znc/{{item}}
+    mode=700
+    owner=znc
+    group=znc
+    state=directory
+  with_items:
+    - configs
+    - modules
+  tags: irc_bouncer
+
+- name: configure znc
+  template: >
+    src=znc.conf.j2
+    dest=/var/lib/znc/configs/znc.conf
+    mode=600
+    owner=znc
+    group=znc
+  notify:
+    - restart znc service
+  tags: irc_bouncer
+
+- name: link znc configuration to /etc
+  file: >
+    src=/var/lib/znc/configs
+    dest=/etc/znc
+    state=link
+  tags: irc_bouncer
+
+- name: generate znc pem file (for ssl)
+  command: >
+    sudo -u znc znc --datadir=/var/lib/znc --makepem
+    creates=/var/lib/znc/znc.pem
+  notify:
+    - keep znc private key from being world-readable
+    - restart znc service
+  tags: irc_bouncer

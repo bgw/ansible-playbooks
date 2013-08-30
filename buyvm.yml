@@ -1,0 +1,11 @@
+---
+- hosts: buyvm
+  user: pipeep
+  sudo: yes
+  vars_files: [secrets.yml]
+
+  roles:
+    - ddclient
+    - irc_bouncer
+    - email
+    - openttd

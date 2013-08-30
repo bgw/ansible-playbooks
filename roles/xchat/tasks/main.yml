@@ -1,0 +1,26 @@
+---
+- name: install xchat
+  apt: pkg=xchat state=present
+  tags: xchat
+
+- name: build xchat directory structure
+  file: >
+    dest=~{{ primary_user }}/.xchat2
+    state=directory
+    mode=700
+    owner={{ primary_user }}
+    group={{ primary_user }}
+  tags: xchat
+
+- name: configure xchat
+  template: >
+    src={{ item }}.j2
+    dest=~{{ primary_user }}/.xchat2/{{ item }}
+    mode=600
+    owner={{ primary_user }}
+    group={{ primary_user }}
+  with_items:
+    - servlist_.conf
+    - colors.conf
+    - xchat.conf
+  tags: xchat

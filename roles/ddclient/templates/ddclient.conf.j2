@@ -1,6 +1,6 @@
 # Generated via Ansible
 {% for key, value in ddclient.iteritems() %}
-{% if key != "domain" %}
+{% if key != "domain" and key != "password" %}
 {{ key }}={{ value }}
 {% endif %}
 {% endfor %}
