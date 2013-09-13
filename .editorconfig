@@ -1,0 +1,11 @@
+root = true
+
+[**]
+indent_style = space
+indent_size = 4
+
+[{group_,host_,}vars/**]
+indent_size = 2
+
+[**.yml{,.example}]
+indent_size = 2
