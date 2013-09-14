@@ -1,6 +1,26 @@
 Ansible Playbooks
 =================
 
+Goals and Priorities
+--------------------
+
+-   I want to be able to run all the basic "cloud" services I need myself
+    (instant freedom box).
+-   For simplicity, most configuration is based on a single-user model. Multiple
+    users may come later.
+-   Low memory consumption. When we pick between alternatives, we'll usually go
+    with whatever needs the least CPU, RAM, and disk.
+-   Everything should be secured as much as is reasonably possible. All daemons
+    should run as their own user, not root. All files with "secrets" should have
+    no more read permissions than necessary.
+-   I'm only targeting Debian Stable for servers, and Sid for workstations (as
+    that's what I use).
+
+The project is similar to [Sovereign][]. Sovereign is designed for a single
+server in the cloud. I want this to automate (at least part of) all my hardware.
+
+  [Sovereign]: https://github.com/al3x/sovereign
+
 Provided Playbooks
 ------------------
 
