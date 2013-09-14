@@ -43,6 +43,8 @@ sudo pip install virtualenv
 virtualenv .env
 # .env/bin/pip install -e . # We need 1.3, which isn't stable as-of-writing
 .env/bin/pip install git+git://github.com/ansible/ansible
+cp hosts.example hosts        # Modify as appropriate
+cp -r secrets.example secrets # Modify as appropriate
 .env/bin/ansible-playbook -i hosts site.yml
 ```
 

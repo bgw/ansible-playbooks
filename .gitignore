@@ -1,3 +1,5 @@
 .env
 *.egg-info
 secrets.yml
+secrets
+hosts

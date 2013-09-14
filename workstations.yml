@@ -2,7 +2,7 @@
 - hosts: workstations
   user: pipeep
   sudo: yes
-  vars_files: [secrets.yml]
+  vars_files: [secrets/main.yml]
 
   roles:
     - xchat
