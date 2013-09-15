@@ -30,6 +30,7 @@ Provided Playbooks
 -   **IRC Bouncer**: A simple IRC bouncer using ZNC, making IRC across multiple
     machines easy
 -   **XChat**: A configuration for XChat that connects through ZNC
+-   **Tinc**: A mesh-routing VPN
 -   **OpenTTD**: Dedicated server for the game, set up with init.d and stuff
 
 Installation

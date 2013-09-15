@@ -2,6 +2,10 @@
 domain: benam.info.tm
 debian_release: wheezy
 arch: amd64
+tinc:
+  local:
+    - {address: 10.10.0.1, prefix: 16}
+    - {address: "fec0:dead:beef:0000::1", prefix: 64}
 openttd:
   server_name: UF OpenTTD
   version: 1.3.2 # https://secure.openttd.org/www/en/download-stable

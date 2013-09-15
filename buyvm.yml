@@ -6,6 +6,7 @@
 
   roles:
     - ddclient
+    - tinc
     - irc_bouncer
     - email
     - openttd

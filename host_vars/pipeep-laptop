@@ -1,0 +1,7 @@
+---
+debian_release: sid
+arch: amd64
+tinc:
+  local:
+    - {address: 10.10.0.2, prefix: 16}
+    - {address: "fec0:dead:beef:0000::2", prefix: 64}

@@ -1,0 +1,9 @@
+{% if item in tinc.connect_to %}
+Address = {{ item }}
+{% endif %}
+
+{% for subnet in tinc.local %}
+Subnet = {{ subnet.address }}
+{% endfor %}
+
+{{ lookup("file", "secrets/tinc/" + item + ".pub") }}

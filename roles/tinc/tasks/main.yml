@@ -1,0 +1,102 @@
+---
+- name: install tinc
+  apt: package=tinc state=present
+  tags: tinc
+
+- name: enable tinc
+  service: >
+    name=tinc
+    enabled=yes
+    state=started
+
+# Debian configures tinc to run as root by default. Unacceptable!
+- name: create tinc user
+  user: >
+    name=tinc
+    system=yes
+    createhome=no
+    state=present
+  tags: tinc
+
+- name: configure default tincd arguments
+  copy: >
+    src=default_args
+    dest=/etc/default/tinc
+    mode=644
+    owner=root
+    group=root
+  notify:
+    - restart tinc
+  tags: tinc
+
+# Debian's default init.d script for tinc has a broken nets.boot parser
+- name: install modified init.d script
+  copy: >
+    src=init_d_tinc
+    dest=/etc/init.d/tinc
+    mode=755
+    owner=root
+    group=root
+  notify:
+    - restart tinc
+  tags: tinc
+
+- name: configure tinc
+  template: >
+    src={{ item.name }}.j2
+    dest=/etc/tinc/{{ item.name }}
+    mode={{ item.mode }}
+    owner=tinc
+    group=tinc
+  with_items:
+    - {name: tinc.conf, mode: 644}
+    - {name: tinc-up, mode: 755}
+  notify:
+    - reload tinc configuration
+  tags: tinc
+
+- name: configure default tinc networks
+  copy: >
+    src=nets.boot
+    dest=/etc/tinc/nets.boot
+    mode=644
+    owner=root
+    group=root
+  notify:
+    - restart tinc
+  tags: tinc
+
+- name: create tinc hosts directory
+  file: >
+    dest=/etc/tinc/hosts
+    mode=755
+    owner=tinc
+    group=tinc
+    state=directory
+  notify:
+    - reload tinc configuration
+  tags: tinc
+
+- name: generate host files
+  template: >
+    src=host.j2
+    dest=/etc/tinc/hosts/{{ item | replace(".", "_") | replace("-", "_") }}
+    mode=644
+    owner=tinc
+    group=tinc
+  with_items: tinc.hosts
+  notify:
+    - reload tinc configuration
+  tags: tinc
+
+- name: install localhost's keys
+  copy: >
+    src=secrets/tinc/{{ inventory_hostname }}.{{ item }}
+    dest=/etc/tinc/rsa_key.{{ item }}
+    mode={% if item == "pub" %}644{% else %}600{% endif %}
+    owner=tinc
+    group=tinc
+  with_items: [pub, priv]
+  notify:
+    - reload tinc configuration
+  tags: tinc

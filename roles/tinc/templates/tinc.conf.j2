@@ -1,0 +1,8 @@
+Name = {{ inventory_hostname | replace(".", "_") | replace("-", "_") }}
+{% for hub in tinc.connect_to %}
+{% if hub != inventory_hostname %}
+ConnectTo = {{ hub | replace(".", "_") | replace("-", "_") }}
+{% endif %}
+{% endfor %}
+LocalDiscovery = yes
+IndirectData = yes

@@ -1,0 +1,5 @@
+#!/bin/sh
+{% for addr in tinc.local %}
+ip addr add local {{addr.address}}/{{addr.prefix}} dev $INTERFACE
+{% endfor %}
+ip link set up dev $INTERFACE

@@ -3,6 +3,15 @@ domain: localhost
 debian_release: wheezy
 arch: amd64
 primary_user: pipeep
+tinc:
+  # Central nodes
+  connect_to:
+    - benjam.info.tm
+  # All nodes on the network
+  hosts:
+    - benjam.info.tm
+    - pipeep-laptop
+    - pipeep-netbook
 irc:
   nick: pipeep
   quitmsg: Bye!

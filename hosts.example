@@ -5,8 +5,8 @@
 benjam.info.tm
 
 [laptops]
-pipeep-laptop.local ansible_connection=local
-pipeep-netbook.local
+pipeep-laptop ansible_connection=local
+pipeep-netbook
 
 [desktops]
 # Oh yeah, I don't have any of these
