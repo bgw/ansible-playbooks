@@ -39,7 +39,7 @@ Installation
 Installing isn't... too... bad?
 
 ```sh
-sudo aptitude install python-pip
+sudo aptitude install python-pip python-dev
 sudo pip install virtualenv
 virtualenv .env
 # .env/bin/pip install -e . # We need 1.3, which isn't stable as-of-writing
