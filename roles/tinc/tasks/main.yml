@@ -3,12 +3,6 @@
   apt: package=tinc state=present
   tags: tinc
 
-- name: enable tinc
-  service: >
-    name=tinc
-    enabled=yes
-    state=started
-
 # Debian configures tinc to run as root by default. Unacceptable!
 - name: create tinc user
   user: >
@@ -99,4 +93,12 @@
   with_items: [pub, priv]
   notify:
     - reload tinc configuration
+  tags: tinc
+
+- name: enable tinc
+  service: >
+    name=tinc
+    enabled=yes
+  notify:
+    - restart tinc
   tags: tinc
