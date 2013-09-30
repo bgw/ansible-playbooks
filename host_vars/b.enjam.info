@@ -1,5 +1,5 @@
 ---
-domain: benam.info.tm
+domain: b.enjam.info
 debian_release: wheezy
 arch: amd64
 tinc:

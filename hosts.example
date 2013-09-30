@@ -2,7 +2,7 @@
 # If you don't want to install anything, pass the arguments `-i hosts`.
 
 [buyvm]
-benjam.info.tm
+b.enjam.info
 
 [laptops]
 pipeep-laptop ansible_connection=local

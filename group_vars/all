@@ -6,17 +6,17 @@ primary_user: pipeep
 tinc:
   # Central nodes
   connect_to:
-    - benjam.info.tm
+    - b.enjam.info
   # All nodes on the network
   hosts:
-    - benjam.info.tm
+    - b.enjam.info
     - pipeep-laptop
     - pipeep-netbook
 irc:
   nick: pipeep
   quitmsg: Bye!
   znc:
-    address: benjam.info.tm
+    address: b.enjam.info
     port: 6697
     ssl: yes
     salt: "ambNif/cjoc+ELdW" # Changing this will cause ZNC to be restarted
