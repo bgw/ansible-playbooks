@@ -73,3 +73,7 @@ irc:
         - { address: irc.hinoto.dairc.net, port: 6697, ssl: yes }
       channels:
         - "#frantech"
+duplicity:
+  backends:
+    - python-paramiko
+    - python-boto

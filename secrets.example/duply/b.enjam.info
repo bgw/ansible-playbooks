@@ -1,0 +1,2 @@
+TARGET_USER="AWS key ID"
+TARGET_PASS="AWS key secret"

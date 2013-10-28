@@ -5,8 +5,9 @@
   vars_files: [secrets/main.yml]
 
   roles:
+    - backups
     - ddclient
-    - tinc
-    - irc_bouncer
     - email
+    - irc_bouncer
     - openttd
+    - tinc

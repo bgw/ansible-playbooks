@@ -1,0 +1,50 @@
++ /var/games
++ /var/log
++ /var/mail
++ /var/www
+
+**.deb
+**.egg
+**.egg-info
+**.gem
+**.log
+**.py[oc]
+**/__pycache__
+**/cache
+**/npm_modules
+**/tmp
+**/.npm
+**/.node-gyp
+/aquota.*
+/bin
+/boot
+/dev
+/etc/.git
+/initrd.img*
+/lib
+/lib32
+/lib64
+/media
+/mnt
+/proc
+/run
+/sbin
+/selinux
+/srv
+/sys
+/tmp
+/usr/bin
+/usr/include
+/usr/lib
+/usr/lib32
+/usr/lib64
+/usr/local/bin
+/usr/local/include
+/usr/local/lib
+/usr/local/lib32
+/usr/local/lib64
+/usr/local/man
+/usr/sbin
+/usr/share
+/var
+/vmlinux*

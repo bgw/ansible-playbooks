@@ -1,0 +1,38 @@
+---
+- name: installing duply and duplicity
+  apt: pkg=duply state=present
+  tags: backups
+
+- name: installing duplicity backends
+  apt: pkg={{ item }} state=present
+  with_items: duplicity.backends
+  tags: backups
+
+- name: create duply configuration folder
+  file: path=/etc/duply state=directory
+  tags: backups
+
+- name: installing configuration files
+  copy: >
+    src={{ item.src }} dest={{ item.dest }}
+    mode={{ item.mode }}
+    owner=root group=root
+  with_items:
+    - src: files/duply/{{ inventory_hostname }}.conf
+      dest: /etc/duply/conf
+      mode: "644"
+    - src: files/duply/{{ inventory_hostname }}.pre
+      dest: /etc/duply/pre
+      mode: "644"
+    - src: files/duply/{{ inventory_hostname }}.post
+      dest: /etc/duply/post
+      mode: "644"
+    - src: files/duply/{{ inventory_hostname }}.exclude
+      dest: /etc/duply/exclude
+      mode: "644"
+    - src: secrets/duply/{{ inventory_hostname }}
+      dest: /etc/duply/secrets
+      mode: "600"
+  tags: backups
+
+# TODO: Cron support for automatic backups and encryption via gpg
