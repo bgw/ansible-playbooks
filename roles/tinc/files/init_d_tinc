@@ -39,7 +39,7 @@ foreach_net() {
   fi
   echo -n "$1"
   shift
-  egrep '^[ ]*[a-zA-Z0-9_-.]+' $NETSFILE | while read net args; do
+  egrep '^[ ]*[-_.a-zA-Z0-9]+' $NETSFILE | while read net args; do
     echo -n " $net"
     "$@" $net $args
   done
