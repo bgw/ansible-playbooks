@@ -1,5 +1,8 @@
 ---
 domain: b.enjam.info
+secondary_domains:
+  - enjam.info
+  - benjam.info.tm
 debian_release: wheezy
 arch: amd64
 tinc:
@@ -21,3 +24,6 @@ ddclient:
   use: web
   login: pipeep
   domain: benjam.info.tm
+email:
+  server: yes
+  client: yes

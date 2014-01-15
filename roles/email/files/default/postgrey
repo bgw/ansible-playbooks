@@ -1,0 +1,1 @@
+POSTGREY_OPTS="--inet=10023 --delay=300 --max-age=90"

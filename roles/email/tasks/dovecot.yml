@@ -1,0 +1,25 @@
+---
+- name: install dovecot
+  apt: pkg={{ item }} state=present
+  with_items:
+    - dovecot-core
+    - dovecot-sqlite
+    - dovecot-imapd
+
+- name: configure dovecot
+  action: >
+    {{ item.action }}
+    src={{ item.file }}{% if item.action == "template" %}.j2{% endif %}
+    dest=/etc/{{ item.file }}
+    owner=root
+    group=root
+    mode=644
+  with_items:
+    - {file: pam.d/dovecot, action: copy}
+    - {file: dovecot/conf.d/10-auth.conf, action: copy}
+    - {file: dovecot/conf.d/10-logging.conf, action: copy}
+    - {file: dovecot/conf.d/10-master.conf, action: copy}
+    - {file: dovecot/conf.d/10-ssl.conf, action: copy}
+    - {file: dovecot/conf.d/auth-system.conf.ext, action: copy}
+  notify:
+    - restart dovecot

@@ -1,0 +1,9 @@
+#
+# Mail aliases for sendmail
+#
+# You must run newaliases(1) after making changes to this file.
+#
+
+/.*/ pipeep
+
+# See also: /etc/aliases

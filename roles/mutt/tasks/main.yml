@@ -1,0 +1,15 @@
+---
+- name: install mutt-patched
+  apt: pkg=mutt-patched state=present
+  tags: mutt
+
+- name: configure mutt
+  template: >
+    src={{ item }}.j2
+    dest=/etc/{{ item }}
+    owner=root
+    group=root
+    mode=644
+  with_items:
+    - Muttrc
+  tags: mutt

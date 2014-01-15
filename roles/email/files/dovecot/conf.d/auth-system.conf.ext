@@ -1,0 +1,22 @@
+# Authentication for system users. Included from auth.conf.
+#
+# <doc/wiki/PasswordDatabase.txt>
+# <doc/wiki/UserDatabase.txt>
+
+# PAM authentication. Preferred nowadays by most systems.
+# PAM is typically used with either userdb passwd or userdb static.
+# REMEMBER: You'll need /etc/pam.d/dovecot file created for PAM
+# authentication to actually work. <doc/wiki/PasswordDatabase.PAM.txt>
+passdb {
+  driver = pam
+  args = dovecot
+}
+
+## User databases
+
+# System users (NSS, /etc/passwd, or similiar). In many systems nowadays this
+# uses Name Service Switch, which is configured in /etc/nsswitch.conf.
+userdb {
+  # <doc/wiki/AuthDatabase.Passwd.txt>
+  driver = passwd
+}

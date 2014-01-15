@@ -1,0 +1,34 @@
+---
+- name: uninstall exim4
+  apt: pkg={{ item }} state=absent purge=yes
+  with_items:
+    - exim4
+    - exim4-base
+    - exim4-config
+    - exim4-daemon-light
+
+- name: install postfix
+  apt: pkg={{ item }} state=present
+  with_items:
+    - postfix
+    - postgrey
+
+- name: configure postfix
+  action: >
+    {{ item.action }}
+    src={{ item.file }}{% if item.action == "template" %}.j2{% endif %}
+    dest=/etc/{{ item.file }}
+    owner=root
+    group=root
+    mode=644
+  with_items:
+    - {file: aliases, action: copy}
+    - {file: aliases_regexp, action: copy}
+    - {file: default/postgrey, action: copy}
+    - {file: mailname, action: template}
+    - {file: postfix/main.cf, action: template}
+    - {file: postfix/master.cf, action: copy}
+  notify:
+    - run newaliases
+    - restart postfix
+    - restart postgrey
