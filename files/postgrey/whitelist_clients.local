@@ -1,0 +1,18 @@
+# UF Email Forwarding
+/^(.*\.)?ufl\.edu$/
+
+# Gmail
+gmail.com
+/^.*-out-.*\.google\.com$/
+
+# Github
+/^(.*\.)?github.com$/
+
+# Friends
+lumeh.org
+thomdixon.org
+
+# Other sites
+reddit.com
+btc-e.com
+amazon.com

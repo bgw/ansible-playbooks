@@ -22,13 +22,25 @@
     group=root
     mode=644
   with_items:
-    - {file: aliases, action: copy}
-    - {file: aliases_regexp, action: copy}
     - {file: default/postgrey, action: copy}
     - {file: mailname, action: template}
     - {file: postfix/main.cf, action: template}
     - {file: postfix/master.cf, action: copy}
+    - {file: postfix/generic, action: template}
   notify:
-    - run newaliases
+    - run postmap
     - restart postfix
+    - restart postgrey
+
+- name: configure postgrey whitelist
+  copy:
+    src=files/postgrey/whitelist_{{ item }}.local
+    dest=/etc/postgrey/whitelist_{{ item }}.local
+    owner=root
+    group=root
+    mode=644
+  with_items:
+    - clients
+    - recipients
+  notify:
     - restart postgrey

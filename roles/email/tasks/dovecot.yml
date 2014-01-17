@@ -3,8 +3,8 @@
   apt: pkg={{ item }} state=present
   with_items:
     - dovecot-core
-    - dovecot-sqlite
     - dovecot-imapd
+    - dovecot-sieve
 
 - name: configure dovecot
   action: >
@@ -16,10 +16,16 @@
     mode=644
   with_items:
     - {file: pam.d/dovecot, action: copy}
-    - {file: dovecot/conf.d/10-auth.conf, action: copy}
+    - {file: dovecot/conf.d/10-auth.conf, action: template}
     - {file: dovecot/conf.d/10-logging.conf, action: copy}
+    - {file: dovecot/conf.d/10-mail.conf, action: copy}
     - {file: dovecot/conf.d/10-master.conf, action: copy}
     - {file: dovecot/conf.d/10-ssl.conf, action: copy}
+    - {file: dovecot/conf.d/15-lda.conf, action: template}
+    - {file: dovecot/conf.d/90-plugin.conf, action: copy}
     - {file: dovecot/conf.d/auth-system.conf.ext, action: copy}
+    - {file: dovecot/conf.d/auth-static.conf.ext, action: template}
+    - {file: dovecot/default.sieve, action: copy}
   notify:
     - restart dovecot
+    - rebuild default sieve

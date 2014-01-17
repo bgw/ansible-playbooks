@@ -77,3 +77,11 @@ duplicity:
   backends:
     - python-paramiko
     - python-boto
+email:
+  password_db: static # Alternatively, "pam" is supported for system users
+  send_as: me # username to send email from (eg. me@b.enjam.info)
+  # Optional manual binds (buyvm won't let me set a default ipv6 route)
+  ipv4_bind: 198.98.49.103
+  ipv6_bind: 2605:6400:10:a15d:feed:face:dead:beef
+  # Buyvm won't let me set a AAAA record, which makes me look like spam over v6
+  inet_protocols: ipv4 # Valid options: `all`, `ipv4`, `ipv6`, `ipv4, ipv6`

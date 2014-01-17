@@ -1,0 +1,29 @@
+# Static passdb. Included from auth.conf.
+
+# This can be used for situations where Dovecot doesn't need to verify the
+# username or the password, or if there is a single password for all users:
+#
+#  - proxy frontend, where the backend verifies the password
+#  - proxy backend, where the frontend already verified the password
+#  - authentication with SSL certificates
+#  - simple testing
+
+#passdb {
+#  driver = static
+#  args = proxy=y host=%1Mu.example.com nopassword=y
+#}
+
+passdb {
+  driver = static
+  args = password={{ email_password }}
+}
+
+userdb {
+  driver = passwd
+}
+
+#userdb {
+#  driver = static
+#  args = uid=1000 gid=1000 home=/home/%n
+#  #args = allow_all_users=yes
+#}

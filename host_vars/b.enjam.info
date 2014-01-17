@@ -2,6 +2,7 @@
 domain: b.enjam.info
 secondary_domains:
   - enjam.info
+  - mail.b.enjam.info
   - benjam.info.tm
 debian_release: wheezy
 arch: amd64

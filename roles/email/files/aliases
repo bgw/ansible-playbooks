@@ -1,7 +1,0 @@
-#
-# Mail aliases for sendmail
-#
-# You must run newaliases(1) after making changes to this file.
-#
-
-# See also: /etc/aliases_regexp

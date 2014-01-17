@@ -2,6 +2,17 @@
 
 myorigin = /etc/mailname
 
+{% if email.ipv4_bind %}
+smtp_bind_address = {{ email.ipv4_bind }}
+{% endif %}
+{% if email.ipv6_bind %}
+smtp_bind_address6 = {{ email.ipv6_bind }}
+{% endif %}
+
+{% if email.inet_protocols %}
+inet_protocols = {{ email.inet_protocols }}
+{% endif %}
+
 smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
 biff = no
 
@@ -18,8 +29,11 @@ myhostname = {{ domain }}
 alias_maps =
 alias_database =
 luser_relay = {{ primary_user }}
-mydestination = mail.$myhostname, $myhostname, {{ inventory_hostname }},
-    localhost.localdomain, localhost, ip6-localhost, ip6-loopback
+smtp_generic_maps = hash:/etc/postfix/generic
+local_recipient_maps =
+mydestination = $myhostname, {% for d in secondary_domains %}{{d}}, {% endfor %}
+  {{ inventory_hostname }}, localhost.localdomain, localhost,
+  ip6-localhost, ip6-loopback
 mynetworks_style = host
 recipient_delimiter = +
 inet_interfaces = all
@@ -39,19 +53,37 @@ mailbox_size_limit = 0
 home_mailbox = Maildir/
 
 ################################################################################
+### Dovecot ####################################################################
+################################################################################
+
+mailbox_command = /usr/lib/dovecot/dovecot-lda -f "$SENDER" -a "$RECIPIENT"
+
+################################################################################
 ### Enable TLS #################################################################
 ################################################################################
 
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
 
-# Opportunistic TLS
-smtpd_tls_security_level = may
+smtpd_tls_security_level = encrypt
 # TODO: use a self-signed cert
 smtpd_tls_cert_file = /etc/ssl/certs/ssl-cert-snakeoil.pem
 smtpd_tls_key_file = /etc/ssl/private/ssl-cert-snakeoil.key
+smtp_tls_protocols = !SSLv2, !SSLv3
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+################################################################################
+### SMTP Login #################################################################
+################################################################################
+
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+queue_directory = /var/spool/postfix
+smtpd_sasl_path = private/auth
+smtpd_tls_auth_only = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain = $myhostname
 
 ################################################################################
 ### Spam Blocking ##############################################################
@@ -76,6 +108,7 @@ smtpd_sender_restrictions =
     permit
 smtpd_recipient_restrictions =
     permit_mynetworks
+    permit_sasl_authenticated
     reject_invalid_hostname
     reject_non_fqdn_recipient
     reject_unauth_destination

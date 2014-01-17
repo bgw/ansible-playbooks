@@ -17,12 +17,16 @@ dnsblog   unix  -       -       -       -       0       dnsblog
 # needed to support TLS in postscreen
 tlsproxy  unix  -       -       -       -       0       tlsproxy
 
-smtps     inet  n       -       -       -       -       smtpd
-  -o syslog_name=postfix/smtps
-  -o smtpd_tls_wrappermode=yes
+#smtps     inet  n       -       -       -       -       smtpd
+#  -o syslog_name=postfix/smtps
+#  -o smtpd_tls_wrappermode=yes
+#  -o smtpd_sasl_auth_enable=yes
+#  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+#  -o milter_macro_daemon_name=ORIGINATING
+submission inet n       -       -       -       -       smtpd
+  -o smtpd_tls_security_level=encrypt
   -o smtpd_sasl_auth_enable=yes
-  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
-  -o milter_macro_daemon_name=ORIGINATING
+
 pickup    fifo  n       -       -       60      1       pickup
 cleanup   unix  n       -       -       -       0       cleanup
 qmgr      fifo  n       -       n       300     1       qmgr
@@ -62,6 +66,6 @@ scache    unix  -       -       -       -       1       scache
 #maildrop  unix  -       n       n       -       -       pipe
 #  flags=DRhu user=mail argv=/usr/bin/maildrop -d ${recipient}
 
-dovecot   unix  -       n       n       -       -       pipe
-  flags=DRhu user=mail:mail
-  argv=/usr/lib/dovecot/dovecot-lda -f ${sender} -d ${recipient} -m ${recipient}
+#dovecot   unix  -       n       n       -       -       pipe
+#  flags=DRhu user=mail:mail
+#  argv=/usr/lib/dovecot/dovecot-lda -f ${sender} -d ${recipient}

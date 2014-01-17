@@ -16,7 +16,7 @@ auth_cache_size = 0
 # them. You can leave it empty if you don't want to support multiple realms.
 # Many clients simply use the first one listed here, so keep the default realm
 # first.
-#auth_realms =
+auth_realms = {{ domain }} {% for d in secondary_domains %}{{ d }} {% endfor %}
 
 # Default realm/domain to use if none was specified. This is used for both
 # SASL realms and appending @domain to username in plaintext logins.
@@ -87,7 +87,16 @@ auth_failure_delay = 5 secs
 #   plain login digest-md5 cram-md5 ntlm rpa apop anonymous gssapi otp skey
 #   gss-spnego
 # NOTE: See also disable_plaintext_auth setting.
-auth_mechanisms = digest-md5 cram-md5
+
+{% if email.password_db == "pam" %}
+# PAM only allows you to use plain authentication
+auth_mechanisms = plain
+{% else %}
+# we keep plain on the list because some clients only support plain
+# (plain is actually fine if we use TLS, which is enforced above)
+auth_mechanisms = digest-md5 cram-md5 plain
+{% endif %}
+
 
 ##
 ## Password and user databases
@@ -109,10 +118,14 @@ auth_mechanisms = digest-md5 cram-md5
 #!include auth-deny.conf.ext
 #!include auth-master.conf.ext
 
+{% if email.password_db == "pam" %}
 !include auth-system.conf.ext
+{% else %}
+!include auth-static.conf.ext
+{% endif %}
+
 #!include auth-sql.conf.ext
 #!include auth-ldap.conf.ext
 #!include auth-passwdfile.conf.ext
 #!include auth-checkpassword.conf.ext
 #!include auth-vpopmail.conf.ext
-#!include auth-static.conf.ext

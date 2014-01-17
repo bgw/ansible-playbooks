@@ -5,3 +5,4 @@ ddclient_password: superSecret
 openttd_password: "" # Empty string makes the server public
 openttd_rcon_password: "" # Empty string disables
 openttd_admin_password: "" # Empty string disables
+email_password: superSecret # only needed with "static" authentication
