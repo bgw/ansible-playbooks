@@ -22,11 +22,12 @@
     group=root
     mode=644
   with_items:
+    - {file: postfix/aliases_regexp, action: template}
     - {file: default/postgrey, action: copy}
     - {file: mailname, action: template}
+    - {file: postfix/generic, action: template}
     - {file: postfix/main.cf, action: template}
     - {file: postfix/master.cf, action: copy}
-    - {file: postfix/generic, action: template}
   notify:
     - run postmap
     - restart postfix

@@ -21,12 +21,12 @@ server in the cloud. I want this to automate (at least part of) all my hardware.
 
   [Sovereign]: https://github.com/al3x/sovereign
 
-Provided Playbooks
-------------------
+Provided Roles
+--------------
 
 -   **ddclient**: A dynamic DNS client, using <freedns.afraid.org>
--   **Email**: (Still in development) A single-user mailserver using postfix,
-    dovecot, and mutt
+-   **Email**: A single-user mailserver using postfix and dovecot
+-   **Mutt**: *(in develoment)* Command-line email access
 -   **IRC Bouncer**: A simple IRC bouncer using ZNC, making IRC across multiple
     machines easy
 -   **XChat**: A configuration for XChat that connects through ZNC

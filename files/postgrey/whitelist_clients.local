@@ -2,17 +2,32 @@
 /^(.*\.)?ufl\.edu$/
 
 # Gmail
-gmail.com
 /^.*-out-.*\.google\.com$/
 
+# Comcast (seems to error on greylist)
+/^.+\.mail.comcast.net$/
+comcast.net
+76.96.0.0/17
+
+# Hotmail (sigh)
+hotmail.com
+
 # Github
-/^(.*\.)?github.com$/
+github.com
+github.net
 
 # Friends
 lumeh.org
 thomdixon.org
 
+# BTC-e
+btc-e.com
+server-1.biz
+
 # Other sites
 reddit.com
-btc-e.com
 amazon.com
+
+# mailing services
+amazonses.com
+smtp-out.amazonses.com

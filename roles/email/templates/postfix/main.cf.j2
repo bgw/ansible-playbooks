@@ -26,11 +26,8 @@ readme_directory = no
 ################################################################################
 
 myhostname = {{ domain }}
-alias_maps =
-alias_database =
-luser_relay = {{ primary_user }}
 smtp_generic_maps = hash:/etc/postfix/generic
-local_recipient_maps =
+alias_maps = regexp:/etc/postfix/aliases_regexp
 mydestination = $myhostname, {% for d in secondary_domains %}{{d}}, {% endfor %}
   {{ inventory_hostname }}, localhost.localdomain, localhost,
   ip6-localhost, ip6-loopback
@@ -57,6 +54,7 @@ home_mailbox = Maildir/
 ################################################################################
 
 mailbox_command = /usr/lib/dovecot/dovecot-lda -f "$SENDER" -a "$RECIPIENT"
+dovecot_destination_recipient_limit = 1
 
 ################################################################################
 ### Enable TLS #################################################################
@@ -65,7 +63,8 @@ mailbox_command = /usr/lib/dovecot/dovecot-lda -f "$SENDER" -a "$RECIPIENT"
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
 
-smtpd_tls_security_level = encrypt
+smtpd_use_tls = yes
+smtpd_tls_security_level = may
 # TODO: use a self-signed cert
 smtpd_tls_cert_file = /etc/ssl/certs/ssl-cert-snakeoil.pem
 smtpd_tls_key_file = /etc/ssl/private/ssl-cert-snakeoil.key

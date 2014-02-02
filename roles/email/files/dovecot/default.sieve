@@ -1,5 +1,8 @@
 require ["fileinto", "variables", "mailbox", "editheader"];
-if address :matches "delivered-to" "*@*" {
+
+if header :matches "x-original-to" "root*" {
+    fileinto "root";
+} elsif header :matches "x-original-to" "*@*" {
     set "target" "${1}";
     if mailboxexists "${target}" {
         fileinto "${target}";
