@@ -26,13 +26,19 @@ irc:
         - { address: morgan.freenode.net, port: 6697, ssl: yes }
         - { address: chat.freenode.net, port: 6697, ssl: yes }
       channels:
+        - "##crypto"
         - "##electronics"
         - "##math"
+        - "##security"
+        - "#/r/seattle"
+        - "#bitcoin"
         - "#botball"
         - "#debian"
         - "#fsf"
         - "#fsf-members"
         - "#gatorlug"
+        - "#gslug"
+        - "#r_netsec"
     - name: Foonetic
       servers:
         - { address: vervet.foonetic.net, port: 6697, ssl: yes }
@@ -53,6 +59,7 @@ irc:
         - "#debian"
         - "#debian-gnome"
         - "#debian-offtopic"
+        - "#tor"
     - name: EFnet
       servers:
         - { address: irc.choopa.net, port: 6697, ssl: yes }
@@ -66,7 +73,6 @@ irc:
         - { address: irc.snoonet.org, port: 6697, ssl: yes }
       channels:
         - "#reddit"
-        - "#breakingbad"
     - name: DaIRC
       servers:
         - { address: irc.dairc.net, port: 6697, ssl: yes }
