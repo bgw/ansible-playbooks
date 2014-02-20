@@ -1,0 +1,115 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+DOCUMENTATION = """
+---
+module: gpg_key
+short_description: Add or remove a gpg key
+"""
+
+EXAMPLES = """
+# Use a long-form key id, and pull key from the default keyserver
+- gpg_key: id=2213A73C4E2569F1
+
+# Pull explicitly from MIT's keyserver
+- gpg_key: id=2213A73C4E2569F1 keyserver=pgp.mit.edu
+
+# Load a key (or keys) from a file, this may contain private keys
+- gpg_key: file=keyfile.gpg state=present
+
+# Load a key from a website
+- gpg_key: url="http://pgp.mit.edu/pks/lookup?op=get&search=0x2213A73C4E2569F1"
+"""
+
+def main():
+    module = AnsibleModule(
+        argument_spec={
+            "state": {
+                "default": "present",
+                "choices": ["present", "absent", "latest"]
+            },
+            "id": {},
+            "file": {},
+            "url": {"aliases": ["uri"]},
+            "keyserver": {},
+            "homedir": {},
+            "options": {}
+        },
+        mutually_exclusive=[["file", "url", "keyserver"]],
+        required_one_of=[["id", "file", "url"]],
+        supports_check_mode=True
+    )
+
+    params = module.params
+    cmd = get_gpg_cmd(module, params["homedir"], params["options"])
+
+
+    if params["state"] == "present":
+        if params["id"] is not None:
+            # If we know the id, we can check if the key exists locally before
+            # attempting to fetch the key
+            if has_key(module, cmd, params["id"]):
+                module.exit_json(changed=False)
+            if module.check_mode:
+                module.exit_json(changed=True)
+        update_key(module, cmd)
+    elif params["state"] == "absent":
+        del_key(module, cmd, params["id"])
+    elif params["state"] == "latest":
+        update_key(module, cmd)
+
+def update_key(m, cmd):
+    p = m.params
+    if p["file"] is not None:
+        import_key(m, cmd, p["file"])
+    elif p["url"] is not None:
+        fetch_key(m, cmd, p["url"])
+    else:
+        recv_key(m, cmd, p["keyserver"], p["id"])
+
+def get_gpg_cmd(m, homedir, options):
+    cmd = [m.get_bin_path("gpg2", required=False) or
+           m.get_bin_path("gpg", required=True)]
+    if homedir is not None:
+        cmd += ["--homedir", homedir]
+    if options is not None:
+        cmd += ["--options", options]
+    if m.check_mode:
+        # --dry-run is "not completely implemented", but it works well enough
+        cmd += ["--dry-run"]
+    return cmd
+
+def has_key(m, cmd, key_id):
+    args = cmd + ["--fast-list-mode", "--list-keys", key_id]
+    rc, out, err = m.run_command(args, check_rc=False)
+    return rc == 0
+
+def is_changed(stderr):
+    return not re.search(r"^gpg:\s+unchanged:\s+[1-9]", stderr, re.MULTILINE)
+
+def recv_key(m, cmd, keyserver, key_id):
+    "Returns True"
+    args = list(cmd)
+    if keyserver is not None:
+        args += ["--keyserver", keyserver]
+    args += ["--recv-keys", key_id]
+    rc, out, err = m.run_command(args, check_rc=True)
+    m.exit_json(changed=is_changed(err))
+
+def import_key(m, cmd, path):
+    args = cmd + ["--import", path]
+    rc, out, err = m.run_command(args, check_rc=True)
+    m.exit_json(changed=is_changed(err))
+
+def fetch_key(m, cmd, url):
+    args = cmd + ["--fetch-keys", url]
+    rc, out, err = m.run_command(args, check_rc=True)
+    m.exit_json(changed=is_changed(err))
+
+def del_key(m, cmd, key_id):
+    args = cmd + ["--batch", "--yes", "--delete-key", key_id]
+    rc, out, err = m.run_command(args, check_rc=False)
+    m.exit_json(changed=(rc == 0))
+
+from ansible.module_utils.basic import *
+main()

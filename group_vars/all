@@ -91,3 +91,8 @@ email:
   ipv6_bind: 2605:6400:10:a15d:feed:face:dead:beef
   # Buyvm won't let me set a AAAA record, which makes me look like spam over v6
   inet_protocols: all # Valid options: `all`, `ipv4`, `ipv6`, `ipv4, ipv6`
+gpg:
+  public: # fetch these from keyservers
+    - email: me@b.enjam.info
+      id: 2213A73C4E2569F1
+  private: [] # load these from /secrets/

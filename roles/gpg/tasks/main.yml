@@ -1,0 +1,22 @@
+- name: install public keys
+  gpg_key: >
+    {% if item.id is defined %} id={{ item.id }} {% endif %}
+    {% if item.file is defined %} file=files/{{ item.file }} {% endif %}
+    {% if item.url is defined %} url={{ item.url }} {% endif %}
+    {% if item.keyserver is defined %} keyserver={{ item.keyserver }} {% endif %}
+    {% if item.homedir is defined %} homedir={{ item.homedir }} {% endif %}
+    {% if item.options is defined %} options={{ item.options }} {% endif %}
+    state=latest
+  sudo_user: "{{ primary_user }}"
+  with_items: gpg.public
+  tags: gpg
+
+- name: install private keys
+  gpg_key: >
+    file=secrets/{{ item.file }}
+    {% if homedir is defined %} homedir={{ item.homedir }} {% endif %}
+    {% if options is defined %} options={{ item.options }} {% endif %}
+    state=latest
+  sudo_user: "{{ primary_user }}"
+  with_items: gpg.private
+  tags: gpg
