@@ -1,5 +1,4 @@
-#jinja2: trim_blocks: False
-{% set cfg = openttd.config_def[openttd.config] %}
+{% set cfg = openttd_auto %}
 
 [misc]
 language = english_US.lng
@@ -9,34 +8,34 @@ savegame_format = lzma:4
 [difficulty]
 competitor_speed = 2
 construction_cost = 0
-disasters = {% if cfg.disasters %} true {% else %} false {% endif %}
+{{ cfg("disasters") }}
 economy = false
 industry_density = 5
-initial_interest = {{ cfg.initial_interest }}
+{{ cfg("initial_interest") }}
 line_reverse_mode = false
-max_loan = {{ cfg.max_loan }}
+{{ cfg("max_loan") }}
 max_no_competitors = 0
-number_towns = {{ cfg.number_towns }}
-quantity_sea_lakes = {{ cfg.quantity_sea_lakes }}
+{{ cfg("number_towns") }}
+{{ cfg("quantity_sea_lakes") }}
 subsidy_multiplier = 2
-terrain_type = {{ cfg.terrain_type }}
-town_council_tolerance = {{ cfg.town_council_tolerance }}
-vehicle_breakdowns = {{ cfg.vehicle_breakdowns }}
-vehicle_costs = {{ cfg.vehicle_costs }}
+{{ cfg("terrain_type") }}
+{{ cfg("town_council_tolerance") }}
+{{ cfg("vehicle_breakdowns") }}
+{{ cfg("vehicle_costs") }}
 
 [game_creation]
 amount_of_rivers = 2
 heightmap_rotation = 0
 land_generator = 1
 landscape = temperate
-map_x = {{ cfg.map_x }}
-map_y = {{ cfg.map_y }}
+{{ cfg("map_x") }}
+{{ cfg("map_y") }}
 min_river_length = 16
 oil_refinery_limit = 32
 river_route_random = 5
 se_flat_world_height = 1
 snow_line_height = 7
-starting_year = {{ cfg.starting_year }}
+{{ cfg("starting_year") }}
 tgen_smoothness = 1
 town_name = english
 tree_placer = 2
@@ -102,22 +101,22 @@ allow_shares = false
 allow_town_level_crossings = true
 allow_town_roads = true
 bribe = true
-dist_local_authority = {{ cfg.dist_local_authority }}
+{{ cfg("dist_local_authority") }}
 exclusive_rights = true
 feeder_payment_share = 75
-found_town = {{ cfg.found_town }}
+{{ cfg("found_town") }}
 fund_buildings = true
 fund_roads = true
 give_money = true
 inflation = true
 infrastructure_maintenance = false
 initial_city_size = 2
-larger_towns = {{ cfg.larger_towns }}
+{{ cfg("larger_towns") }}
 mod_road_rebuild = true
 multiple_industry_per_town = false
 smooth_economy = true
 station_noise_level = false
-town_growth_rate = {{ cfg.town_growth_rate }}
+{{ cfg("town_growth_rate") }}
 town_layout = 0
 town_noise_population[0] = 800
 town_noise_population[1] = 2000

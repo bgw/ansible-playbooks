@@ -1,5 +1,6 @@
-.env
 *.egg-info
-secrets.yml
-secrets
+*.py[cod]
+.env
 hosts
+secrets
+secrets.yml
