@@ -6,4 +6,45 @@ openttd:
   currency: USD # https://secure.openttd.org/wiki/Currency
   language: ALL
   units: imperial # alternatively, metric
-  casual: yes
+  config: casual
+  config_def:
+    casual:
+      # [difficulty]
+      disasters: no
+      initial_interest: 2        # 2% interest
+      max_loan: 400000           # in British Pounds
+      number_towns: 3            # high
+      quantity_sea_lakes: 0      # very low
+      terrain_type: 1            # flat
+      town_council_tolerance: 0  # permissive
+      vehicle_breakdowns: 1      # reduced
+      vehicle_costs: 0           # low maintenance
+      # [game_creation]
+      map_x: 7
+      map_y: 7
+      starting_year: 1980
+      # [economy]
+      dist_local_authority: 5
+      found_town: 1              # allow
+      larger_towns: 4            # 1/4 of towns become cities
+      town_growth_rate: 3        # fast
+    normal:
+      # [difficulty]
+      disasters: yes
+      initial_interest: 3        # 3% interest
+      max_loan: 200000           # in British Pounds
+      number_towns: 2            # normal
+      quantity_sea_lakes: 1      # low
+      terrain_type: 2            # hilly
+      town_council_tolerance: 0  # tolerant
+      vehicle_breakdowns: 2      # normal
+      vehicle_costs: 1           # medium maintenance
+      # [game_creation]
+      map_x: 9
+      map_y: 9
+      starting_year: 1950
+      # [economy]
+      dist_local_authority: 20
+      found_town: 0              # disallow
+      larger_towns: 10           # 1/10 of towns become cities
+      town_growth_rate: 2        # normal

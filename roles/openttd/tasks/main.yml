@@ -1,9 +1,10 @@
 ---
 # Install and configure OpenTTD for use as a dedicated server.
 # Warning: This installs x11-common and friends (because openttd *requires* sdl)
+
 - name: stop existing openttd server (if it exists)
   service: name=openttd enabled=yes state=stopped
-  ignore_errors: yes
+  failed_when: False
   tags: openttd
 
 - name: ensure /var/games exists
@@ -35,15 +36,13 @@
 
 - name: download OpenTTD
   get_url: >
-    url=http://binaries.openttd.org/releases/{{openttd.version}}/openttd-{{
-    openttd.version}}-linux-debian-{{debian_release}}-{{arch}}.deb
+    url=http://us.binaries.openttd.org/binaries/releases/{{openttd.version
+    }}/openttd-{{openttd.version}}-linux-debian-{{debian_release}}-{{arch}}.deb
     dest=/tmp/ansible-openttd/openttd-{{openttd.version}}.deb
   tags: openttd
 
 - name: install OpenTTD
-  shell: >
-    dpkg -i /tmp/ansible-openttd/openttd-{{openttd.version}}.deb ||
-    apt-get -f --no-install-recommends --assume-yes install
+  apt: deb=/tmp/ansible-openttd/openttd-{{openttd.version}}.deb
   tags: openttd
 
 - name: download opengfx
@@ -54,7 +53,9 @@
   tags: openttd
 
 - name: remove previous opengfx installations
-  shell: rm -rf /usr/share/games/openttd/baseset/opengfx*
+  shell: rm -r /usr/share/games/openttd/baseset/opengfx*
+  register: result
+  changed_when: result.rc == 0
   tags: openttd
 
 - name: install opengfx
