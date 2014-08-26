@@ -85,12 +85,14 @@
 
 - name: install localhost's keys
   copy: >
-    src=secrets/tinc/{{ inventory_hostname }}.{{ item }}
-    dest=/etc/tinc/rsa_key.{{ item }}
-    mode={% if item == "pub" %}644{% else %}600{% endif %}
+    src=secrets/tinc/{{ inventory_hostname }}.{{ item.extension }}
+    dest=/etc/tinc/rsa_key.{{ item.extension }}
+    mode={{ item.mode }}
     owner=tinc
     group=tinc
-  with_items: [pub, priv]
+  with_items:
+    - {extension: pub, mode: 644}
+    - {extension: priv, mode: 600}
   notify:
     - reload tinc configuration
   tags: tinc
