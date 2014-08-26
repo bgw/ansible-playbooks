@@ -25,23 +25,6 @@
     - restart znc service
   tags: irc_bouncer
 
-- name: install uuencode (for password hashing)
-  apt: pkg=sharutils state=present
-  tags: irc_bouncer
-
-- name: generate password hash
-  # You can supply a salt as a varible, or you can randomly generate a new one
-  # Supplying one keeps the hash from changing each time, restarting ZNC.
-  shell: >
-    RAND_SALT="$(head /dev/urandom | uuencode -m - | sed -n 2p | cut -c-16)";
-    GIVEN_SALT='{{irc.znc.salt}}';
-    SALT="$(python -c "print(r'''$GIVEN_SALT''' or r'''$RAND_SALT''')")";
-    echo -n "sha256#$(
-    echo -n '{{irc_znc_password}}'$SALT | sha256sum | cut -b -64
-    )#$SALT#"
-  register: irc_znc_hash
-  tags: irc_bouncer
-
 - name: generate znc directory structure
   file: >
     dest=/var/lib/znc/{{item}}
