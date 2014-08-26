@@ -23,8 +23,8 @@ irc:
   networks:
     - name: freenode
       servers:
-        - { address: morgan.freenode.net, port: 6697, ssl: yes }
-        - { address: chat.freenode.net, port: 6697, ssl: yes }
+        - { address: morgan.freenode.net, ssl: yes }
+        - { address: chat.freenode.net, ssl: yes }
       channels:
         - "##crypto"
         - "##electronics"
@@ -41,20 +41,20 @@ irc:
         - "#r_netsec"
     - name: Foonetic
       servers:
-        - { address: vervet.foonetic.net, port: 6697, ssl: yes }
-        - { address: staticfree.foonetic.net, port: 6697, ssl: yes }
-        - { address: irc.foonetic.net, port: 6697, ssl: yes }
+        - { address: vervet.foonetic.net, ssl: yes }
+        - { address: staticfree.foonetic.net, ssl: yes }
+        - { address: irc.foonetic.net, ssl: yes }
       channels:
         - "#xkcd"
         - "#xkcd-compsci"
     - name: GIMPNet
       servers:
-        - { address: irc.gimp.org, port: 6667, ssl: no }
+        - { address: irc.gimp.org, ssl: no }
       channels:
         - "#clutter"
     - name: OFTC
       servers:
-        - { address: irc.oftc.net, port: 6697, ssl: yes }
+        - { address: irc.oftc.net, ssl: yes }
       channels:
         - "#debian"
         - "#debian-gnome"
@@ -62,21 +62,21 @@ irc:
         - "#tor"
     - name: EFnet
       servers:
-        - { address: irc.choopa.net, port: 6697, ssl: yes }
-        - { address: irc.paraphysics.net, port: 6697, ssl: yes }
-        - { address: efnet.xs4all.nl, port: 6697, ssl: yes }
-        - { address: irc.efnet.org, port: 6667, ssl: no }
+        - { address: irc.choopa.net, ssl: yes }
+        - { address: irc.paraphysics.net, ssl: yes }
+        - { address: efnet.xs4all.nl, ssl: yes }
+        - { address: irc.efnet.org, ssl: no }
       channels:
         - "#math"
     - name: Snoonet
       servers:
-        - { address: irc.snoonet.org, port: 6697, ssl: yes }
+        - { address: irc.snoonet.org, ssl: yes }
       channels:
         - "#reddit"
     - name: DaIRC
       servers:
-        - { address: irc.dairc.net, port: 6697, ssl: yes }
-        - { address: irc.hinoto.dairc.net, port: 6697, ssl: yes }
+        - { address: irc.dairc.net, ssl: yes }
+        - { address: irc.hinoto.dairc.net, ssl: yes }
       channels:
         - "#frantech"
 duplicity:

@@ -3,12 +3,13 @@
 v=2.8.8
 
 {% for network in irc.networks %}
-N={{ network.name }}
-I={{ irc.nick }}
-i={{ irc.nick }}_
-U={{ irc.nick }}-{{ network.name }}
-R={{ irc.nick }}
-P={{ irc.nick }}-{{ network.name }}:{{ irc_znc_password }}
+{% set nick = network.nick | default(irc.nick) -%}
+N={{ network.name }}{% if nick != irc.nick %} ({{ nick }}){% endif %}
+I={{ nick }}
+i={{ nick }}_
+U={{ nick }}-{{ network.name }}
+R={{ nick }}
+P={{ nick }}-{{ network.name }}:{{ irc_znc_password }}
 F={% if irc.znc.ssl %}45{% else %}9{% endif %}
 D=0
 S={{ irc.znc.address }}/{{ irc.znc.port }}
