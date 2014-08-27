@@ -1,0 +1,52 @@
+---
+domain: localhost
+debian_release: wheezy
+arch: amd64
+primary_user: pipeep
+tinc:
+  # Central nodes
+  connect_to:
+    - b.enjam.info
+  # All nodes on the network
+  hosts:
+    - b.enjam.info
+    - pipeep-laptop
+    - pipeep-netbook
+irc:
+  nick: changetheconfig
+  quitmsg: Bye!
+  znc:
+    address: b.enjam.info
+    port: 6697
+    ssl: yes
+    salt: "0OlNhr46Y4wXEV0M" # Changing this will cause ZNC to be restarted
+  networks:
+    - name: freenode
+      servers:
+        - { address: chat.freenode.net, ssl: yes }
+      channels:
+        - "##math"
+        - "##security"
+    - name: Foonetic
+      servers:
+        - { address: irc.foonetic.net, ssl: yes }
+      channels:
+        - "#xkcd"
+        - "#xkcd-compsci"
+duplicity:
+  backends:
+    - python-paramiko
+    - python-boto
+email:
+  password_db: static # Alternatively, "pam" is supported for system users
+  send_as: me # username to send email from (eg. me@b.enjam.info)
+  # Optional manual binds
+  ipv4_bind: 198.98.49.103
+  ipv6_bind: 2605:6400:10:a15d:feed:face:dead:beef
+  inet_protocols: all # Valid options: `all`, `ipv4`, `ipv6`, `ipv4, ipv6`
+gpg:
+  public: # fetch these from keyservers
+    - email: me@b.enjam.info
+      id: 3F4B 2B30 E887 36F4 5B3A  2C0C 2213 A73C 4E25 69F1
+      keyserver: pgp.mit.edu
+  private: [] # load these from /secrets/

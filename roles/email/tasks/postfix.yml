@@ -35,7 +35,7 @@
 
 - name: configure postgrey whitelist
   copy:
-    src=files/postgrey/whitelist_{{ item }}.local
+    src=config/files/postgrey/whitelist_{{ item }}.local
     dest=/etc/postgrey/whitelist_{{ item }}.local
     owner=root
     group=root

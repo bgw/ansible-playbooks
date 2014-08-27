@@ -43,7 +43,7 @@ sudo aptitude install python-pip python-dev
 sudo pip install virtualenv
 virtualenv .env
 .env/bin/pip install -e .
-cp hosts.example hosts        # Modify as appropriate
+cp -r config.example config   # Modify as appropriate
 cp -r secrets.example secrets # Modify as appropriate
 .env/bin/ansible-playbook site.yml
 ```
