@@ -45,7 +45,7 @@ virtualenv .env
 .env/bin/pip install -e .
 cp hosts.example hosts        # Modify as appropriate
 cp -r secrets.example secrets # Modify as appropriate
-.env/bin/ansible-playbook -i hosts site.yml
+.env/bin/ansible-playbook site.yml
 ```
 
 If you only want to install specific roles, pass the desired tags, such as
