@@ -35,4 +35,12 @@
       mode: "600"
   tags: backups
 
-# TODO: Cron support for automatic backups and encryption via gpg
+- name: setup backup cron job
+  cron: >
+    name="run a backup with duply"
+    cron_file=duply
+    special_time=hourly
+    user=root
+    job="ionice -t -c idle nice -n 17
+    duply /etc/duply cleanup_backup_purge-full_purge --force > /dev/null"
+  tags: backups

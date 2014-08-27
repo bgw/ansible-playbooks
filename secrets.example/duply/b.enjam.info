@@ -1,2 +1,11 @@
 TARGET_USER="AWS key ID"
 TARGET_PASS="AWS key secret"
+
+# Change the default password!
+GPG_KEY="disabled"
+GPG_PW="something super secret"
+
+# alternatively, you can use gpg public/private keys
+#GPG_KEYS_ENC="<pubkey1>,<pubkey2>,..."
+#GPG_KEY_SIGN="<prvkey>"
+#GPG_PW_SIGN="<signpass>"
