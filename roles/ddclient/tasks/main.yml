@@ -15,7 +15,7 @@
   tags: ddclient
 
 - name: install Digest::SHA1 (due to ddclient bug)
-  command: cpanm Digest::SHA1
+  cpanm: name=Digest::SHA1
   tags: ddclient
 
 - name: configure ddclient
